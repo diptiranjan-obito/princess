@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Princess Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,800&family=Quicksand:wght@500;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--plum:#7a1e6b;--pink:#ff8fb8;--rose:#ffd6e6;--lav:#e8d9ff;--cream:#fff8ef;--gold:#d99a2b}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:'Quicksand',system-ui,sans-serif;color:#5a3550;
+ background:linear-gradient(160deg,#ffe3f0 0%,#efe0ff 50%,#fff3da 100%)}
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#fx i{position:absolute;bottom:-30px;font-style:normal;opacity:.7;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(40deg)}}
+main{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ padding:max(20px,env(safe-area-inset-top)) 20px calc(96px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain}
+.page{display:none;width:min(420px,100%);flex-direction:column;align-items:center;text-align:center;gap:14px}
+.page.on{display:flex;animation:pop .6s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes pop{from{opacity:0;transform:translateY(22px) scale(.96)}}
+.tag{font-weight:600;font-size:.82rem;color:var(--gold);letter-spacing:.18em}
+h1,h2{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:800;color:var(--plum);line-height:1.1}
+h1{font-size:clamp(2.3rem,11vw,3.3rem);background:linear-gradient(90deg,#7a1e6b,#ff6aa2);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:1.65rem}
+p{line-height:1.7;font-size:.98rem;max-width:32ch}
+.card{background:rgba(255,255,255,.88);border-radius:28px;padding:22px 20px;width:100%;box-shadow:0 20px 50px rgba(190,110,170,.22);display:flex;flex-direction:column;align-items:center;gap:12px}
+.script{font-family:'Dancing Script',cursive;font-size:1.55rem;color:var(--plum)}
+.cta{border:0;border-radius:99px;padding:13px 28px;font:600 1rem 'Quicksand',sans-serif;color:#7a1e55;cursor:pointer;
+ background:linear-gradient(135deg,#ffc2d9,#ff9ec2);box-shadow:0 8px 20px rgba(255,120,170,.4)}
+.cta:active{transform:scale(.96)}
+.mascot{width:150px;filter:drop-shadow(0 10px 14px rgba(200,120,160,.35));animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-7px)}}
+.held{font-size:2.1rem;margin-top:-26px;position:relative}
+/* puzzle */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;transition:filter .6s,opacity .6s}
+.cell{aspect-ratio:1;border-radius:16px;background:linear-gradient(#fff,#fff0f5);box-shadow:0 4px 10px rgba(200,130,170,.25);display:grid;place-items:center;font-size:2rem;color:var(--gold);border:0;font-family:inherit}
+.cell.empty{background:var(--rose);border:2px dashed var(--gold);cursor:pointer;animation:throb 1.4s ease-in-out infinite}
+@keyframes throb{50%{transform:scale(1.07)}}
+.cell.placed{animation:stamp .5s ease}
+@keyframes stamp{from{transform:scale(2.4);opacity:0}}
+.solved .grid{filter:blur(6px);opacity:.25;position:absolute;pointer-events:none}
+.reveal{display:none;flex-direction:column;align-items:center;gap:6px}
+.solved .reveal{display:flex;animation:pop .7s both}
+.solved .mascot{width:110px}
+/* gift game */
+.boxes{display:flex;gap:12px;width:100%;justify-content:center}
+.box{flex:1;max-width:110px;aspect-ratio:.9;border:0;border-radius:18px;font-size:3rem;cursor:pointer;position:relative;
+ background:linear-gradient(#fff,#ffe9f2);box-shadow:0 8px 18px rgba(200,120,170,.3);font-family:inherit;transition:transform .3s}
+.box:nth-child(2){animation-delay:.25s}.box:nth-child(3){animation-delay:.5s}
+.box:not(.open){animation:wob 2.2s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+.box.open{transform:scale(1.08);background:linear-gradient(#fff6d8,#ffe2a8);animation:stamp .5s}
+.prize{min-height:96px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.prize b{font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;color:var(--plum)}
+.prize p{font-size:.92rem}
+/* note */
+.note{position:relative;padding-bottom:40px}
+.note p{max-width:none;font-size:.95rem}
+.seal{position:absolute;left:-10px;bottom:-14px;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;font-size:1.6rem;
+ background:radial-gradient(circle at 35% 30%,#ffe9a8,#e5b04a);border:3px double #fff6cf;box-shadow:0 6px 14px rgba(150,100,20,.35);transform:rotate(-12deg)}
+.kit{position:absolute;right:-6px;top:-34px;font-size:2.4rem}
+/* nav */
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;padding:14px 22px calc(18px + env(safe-area-inset-bottom))}
+.nb{border:0;border-radius:99px;padding:9px 18px;font:600 .85rem 'Quicksand',sans-serif;background:var(--lav);color:var(--plum);cursor:pointer;box-shadow:0 4px 10px rgba(150,110,200,.25);min-width:78px}
+.nb.nx{background:var(--rose)}.nb:disabled{opacity:.35}
+.dots{display:flex;gap:7px}.dots b{width:8px;height:8px;border-radius:50%;background:#e9cbe0;transition:.3s}.dots b.on{background:var(--pink);width:22px;border-radius:6px}
+button:focus-visible{outline:2px solid var(--plum);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="fx"></div>
+<main>
+
+<section class="page on" data-n="0">
+  <div class="tag">&#128081; NOVEMBER 18</div>
+  <h1>Happy Princess Day, <span id="n0"></span></h1>
+  <p id="intro"></p>
+  <svg class="mascot" viewBox="0 0 120 112"><use href="#pip"/></svg>
+  <div class="held" id="held0">&#128144;</div>
+  <button class="cta" id="enter">Enter the Palace</button>
+</section>
+
+<section class="page" data-n="1">
+  <div class="card">
+    <div class="tag">A GIFT FOR YOU &#10022;</div>
+    <h2>Gifts for My Princess</h2>
+    <svg class="mascot" viewBox="0 0 120 112"><use href="#pip"/></svg>
+    <div class="held">&#127873;&#129528;&#127851;</div>
+    <p id="giftTxt"></p>
+    <div class="script" id="from1"></div>
+  </div>
+</section>
+
+<section class="page" data-n="2" id="puz">
+  <h2>One crown is missing.<br>Place it &#128081;</h2>
+  <div class="card" style="position:relative;min-height:320px;justify-content:center">
+    <div class="grid" id="grid"></div>
+    <div class="reveal">
+      <svg class="mascot" viewBox="0 0 120 112"><use href="#pip"/></svg>
+      <h2>The crown was always meant for you.</h2>
+    </div>
+  </div>
+</section>
+
+<section class="page" data-n="3b">
+  <div class="card">
+    <div class="tag">PICK A GIFT &#10022;</div>
+    <h2>Choose one, princess</h2>
+    <div class="boxes" id="boxes"></div>
+    <div class="prize" id="prize"><p>Tap a box to open it. Peek at the others too.</p></div>
+  </div>
+</section>
+
+<section class="page" data-n="3">
+  <div class="card note">
+    <div class="kit">&#128049;</div>
+    <div class="tag">A ROYAL NOTE</div>
+    <h2>Just for you &#10022;</h2>
+    <div class="script" id="dear"></div>
+    <p id="noteTxt"></p>
+    <div class="script" id="from3"></div>
+    <div class="seal">&#128081;</div>
+  </div>
+</section>
+
+<section class="page" data-n="4">
+  <div class="tag">THE END, FOR NOW</div>
+  <h1 id="endH"></h1>
+  <p id="endP"></p>
+  <button class="cta" id="party">Make it rain hearts</button>
+  <button class="nb" id="again">Start over</button>
+</section>
+
+</main>
+
+<nav><button class="nb" id="back">&larr; Back</button><div class="dots" id="dots"></div><button class="nb nx" id="next">Next &rarr;</button></nav>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="pip" viewBox="0 0 120 112">
+ <ellipse cx="22" cy="28" rx="14" ry="17" fill="#fff" stroke="#f1c7d6" stroke-width="2.5" transform="rotate(-18 22 28)"/>
+ <ellipse cx="98" cy="28" rx="14" ry="17" fill="#fff" stroke="#f1c7d6" stroke-width="2.5" transform="rotate(18 98 28)"/>
+ <ellipse cx="60" cy="64" rx="48" ry="40" fill="#fff" stroke="#f1c7d6" stroke-width="2.5"/>
+ <ellipse cx="42" cy="62" rx="5" ry="6.5" fill="#4b2a40"/><ellipse cx="78" cy="62" rx="5" ry="6.5" fill="#4b2a40"/>
+ <circle cx="40.5" cy="60" r="1.6" fill="#fff"/><circle cx="76.5" cy="60" r="1.6" fill="#fff"/>
+ <ellipse cx="29" cy="74" rx="8" ry="5" fill="#ffb3cc" opacity=".7"/><ellipse cx="91" cy="74" rx="8" ry="5" fill="#ffb3cc" opacity=".7"/>
+ <path d="M54 74 Q60 80 66 74" stroke="#4b2a40" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+ <ellipse cx="60" cy="69" rx="3.5" ry="2.5" fill="#f6b73c"/>
+ <g transform="translate(86 22) rotate(18)"><ellipse cx="-10" cy="0" rx="11" ry="8" fill="#ff5d8a"/><ellipse cx="10" cy="0" rx="11" ry="8" fill="#ff5d8a"/><circle r="5.5" fill="#ff93b3"/></g>
+ <path d="M44 18 l5 -9 l6 6 l5 -9 l5 9 l6 -6 l5 9 z" fill="#f6c453" stroke="#d99a2b" stroke-width="1.5" transform="translate(-5 0)"/>
+</symbol></defs></svg>
+
+<script>
+/* ======= EDIT ME ======= */
+const C={
+ name:" Trisha ",
+ from:"Anshu",
+ intro:"Today the whole kingdom celebrates you. I made this little royal world just for you, to wrap your day in sparkles, flowers and a lot of heart.",
+ gift:"Every little gift here carries a wish for your happiness, because you deserve all the beautiful things life has to offer.",
+ note:"Some people make the world a little brighter simply by being in it. You're one of those people. May life always leave a little room for magic, kindness and beautiful surprises. Never forget how wonderfully special you are. Happy Princess Day.",
+ gifts:[
+  {icon:"\u{1F36B}",title:"A sweet treat",text:"One chocolate 🍫 treat,just for you. Because even ordinary days deserve something sweet."},
+  {icon:"\u{1F9F8}",title:"A big hug",text:"A reminder that you deserve warmth, peace and all the little things that makes you hempyyy."},
+  {icon:"\u{1F4AB}",title:"A wish",text:"Make a wish. I will do my very best to make it come true.May the universe surprise you with beautiful moments, unexpected happiness and countless reasons to smile."}
+ ],
+ endTitle:"Long live the princess",
+ endText:"Whenever you need a little magic, remember that somewhere in this universe, someone is always cheering for you."
+};
+/* ======================= */
+const $=id=>document.getElementById(id);
+$('n0').textContent=C.name;$('intro').textContent=C.intro;$('giftTxt').textContent=C.gift;
+$('dear').textContent="Dear "+C.name+",";$('noteTxt').textContent=C.note;
+$('from1').textContent="with warm wishes, "+C.from;$('from3').textContent="always cheering for you, "+C.from;
+$('endH').textContent=C.endTitle;$('endP').textContent=C.endText;
+
+const pages=[...document.querySelectorAll('.page')];let cur=0,solved=false,picked=false;
+$('dots').innerHTML=pages.map(()=>'<b></b>').join('');
+function go(i){cur=Math.max(0,Math.min(pages.length-1,i));
+ pages.forEach((p,k)=>p.classList.toggle('on',k===cur));
+ [...$('dots').children].forEach((d,k)=>d.classList.toggle('on',k===cur));
+ $('back').disabled=cur===0;
+ $('next').disabled=(cur===pages.length-1)||(cur===2&&!solved)||(cur===3&&!picked);}
+$('back').onclick=()=>go(cur-1);$('next').onclick=()=>go(cur+1);
+$('enter').onclick=()=>go(1);$('again').onclick=()=>go(0);
+
+// puzzle
+const g=$('grid');
+for(let i=0;i<9;i++){const c=document.createElement('button');c.className='cell';
+ if(i===0)c.textContent='\u{1F451}';else if(i===4){c.classList.add('empty');c.setAttribute('aria-label','Place the crown');
+  c.onclick=()=>{c.textContent='\u{1F451}';c.classList.remove('empty');c.classList.add('placed');
+   setTimeout(()=>{$('puz').classList.add('solved');solved=true;go(2);hearts(14)},650)}}
+ else c.textContent='\u2726';g.appendChild(c)}
+
+// gift game
+C.gifts.forEach(gf=>{const b=document.createElement('button');b.className='box';b.textContent='\u{1F381}';b.setAttribute('aria-label','Gift box');
+ b.onclick=()=>{b.textContent=gf.icon;b.classList.add('open');
+  const p=$('prize');p.innerHTML='';const t=document.createElement('b');t.textContent=gf.title;const d=document.createElement('p');d.textContent=gf.text;p.append(t,d);
+  hearts(8);if(!picked){picked=true;go(cur)}};
+ $('boxes').appendChild(b)});
+
+// floating background + hearts
+const E=['\u{1F497}','\u2728','\u{1F338}','\u{1F495}','\u{1F380}'];
+function spawn(n,fast){for(let k=0;k<n;k++){const e=document.createElement('i');e.textContent=E[Math.random()*E.length|0];
+ e.style.left=Math.random()*100+'%';e.style.fontSize=(12+Math.random()*18)+'px';
+ e.style.animationDuration=(fast?3+Math.random()*3:9+Math.random()*9)+'s';e.style.animationDelay=(fast?Math.random()*1.2:-Math.random()*12)+'s';
+ $('fx').appendChild(e);if(fast)setTimeout(()=>e.remove(),7000)}}
+function hearts(n){spawn(n,true)}
+spawn(14,false);$('party').onclick=()=>hearts(30);
+go(0);
+</script>
+</body>
+</html>
